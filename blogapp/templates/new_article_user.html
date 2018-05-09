@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+	{% block title %} Profile page {% endblock %}
+
+	{% block css %}
+	{% endblock %}
+
+	{% block profile %}
+	{% endblock %}
+
+	{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <form action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button class="btn btn-success">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+	{% endblock %}
+	 
+	{% block js %}
+	{% endblock %}

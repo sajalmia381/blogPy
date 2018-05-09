@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+	{% block title %} Profile page {% endblock %}
+	{% block css %}
+		<style>
+			#fh5co-offcanvas .fh5co-bio {
+		    	width: 300px;
+			}
+			textarea,
+			label{
+			display: block;}
+			textarea,
+			input{
+			padding: 5px 15px;
+			font-size: 18px;
+			width: 100%;
+			margin-bottom: 20px;}
+		</style>
+	{% endblock %}
+	{% block profile %}
+		<div class="fh5co-bio">
+		    <figure>
+		        <img src="{{ post.article_author.author_picture.url }}" alt="Image Not Found" class="img-responsive">
+		    </figure>
+			<a href="#"><h3 class="heading">About me</h3></a>
+		    <h2>{{ post.article_author.name.get_full_name }}</h2>
+            <h4>{{ post.article_author.name.email }}</h4>
+		    <p>{{ post.article_author.details}}</p>
+		    <ul class="fh5co-social">
+		        <li><a href="#"><i class="icon-twitter"></i></a></li>
+		        <li><a href="#"><i class="icon-facebook"></i></a></li>
+		        <li><a href="#"><i class="icon-instagram"></i></a></li>
+		    </ul>
+		</div>
+	{% endblock %}
+	{% block content %}
+	<div class="container-fluid">
+        <div class="row fh5co-post-entry">
+            {% if post.id > first.id %}
+            <a href="{% url 'blog:single_post' id=post.id|add:'-1' %}" class="fh5co-post-prev"><span><i class="icon-chevron-left"></i> Prev</span></a>
+            {% endif %}
+            {% if post.id < last.id %}
+            <a href="{% url 'blog:single_post' id=post.id|add:'1' %}" class="fh5co-post-next"><span>Next <i class="icon-chevron-right"></i></span></a>
+            {% endif %}
+            <article class="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-8 col-sm-offset-2 col-xs-12 col-xs-offset-0">
+                <figure class="animate-box">
+                    <img src="{{ post.image.url }}" alt="Image" class="img-responsive">
+                </figure>
+                <span class="fh5co-meta animate-box"><a href="{{ post.topic_url }}">{{ post.category }}</a></span>
+                <h2 class="fh5co-article-title animate-box"><a href="{{ post.single_post_url }}">{{ post.title}}</a></h2>
+                <span class="fh5co-meta fh5co-date animate-box">{{ post.posted_on }}</span>
+                <div class="col-lg-12 col-lg-offset-0 col-md-12 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0 text-left content-article">
+                    <div class="row">
+                        <div class="col-lg-12 cp-r animate-box">
+                            <p>{{ post.body }}</p>
+                        </div>
+                    </div>
+                </div>
+            </article>
+		</div>
+		<div class="container">
+			<div class="row fh5co-post-entry">
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h2>Comments</h2>
+					</div>
+					 <div class="panel-body">
+						 {% for c in comments %}
+						 <h4>{{ c.name }}</h4>
+						 <h6>{{ c.email }}</h6>
+						 <p>{{ c.post_comment }}</p>
+						 	{% empty %}
+						 	<h4>No Comment</h4>
+						 {% endfor %}
+
+					</div>
+				</div>
+				<div class="panel panel-success">
+					<div class="panel-heading">
+						<h2>You Opinions </h2>
+					</div>
+					 <div class="panel-body">
+						 <form action="" method="POST">
+							 {% csrf_token %}
+							 <div class="col-md-6">
+								 <label>Name</label>
+							 	{{ form.name }}
+							 </div>
+							 <div class="col-md-6">
+							 <label>Email</label>
+							 {{ form.email }}
+							 </div>
+							 <div class="col-md-12">
+							 <label>Comment</label>
+							 {{ form.post_comment }}
+							 </div>
+							 <div class="col-md-12 text-center">
+							 <button class="btn btn-success">Submit</button>
+							 </div>
+						 </form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12">
+				<h2 class="fh5co-article-title animate-box">RELATED POSTS: </h2>
+			</div>
+			{% for r in related %}
+			<div class="col-md-4">
+				<figure class="animate-box">
+					<a href="{{ r.single_post_url }}"><img src="{{ r.image.url }}" alt="Image" class="img-responsive"></a>
+					<h2 class="fh5co-article-title animate-box"><a href="{{ r.single_post_url }}">{{ r.title}}</a></h2>
+					<p>{{ r.body|truncatewords:10 }}</p>
+				</figure>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	{% endblock %}
+	{% block js %}
+	{% endblock %}

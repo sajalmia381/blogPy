@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+	{% block title %} Category {% endblock %}
+
+	{% block css %}
+	{% endblock %}
+
+	{% block profile %}
+	{% endblock %}
+
+	{% block content %}
+    <section>
+        <div class="container">
+            <div class="row">
+                <ol>
+                    {% for c in post %}
+                    <li><a href="#">{{ c.name}}</a></li>
+                    {% endfor %}
+                </ol>
+            </div>
+        </div>
+    </section>
+	{% endblock %}
+	 
+	{% block js %}
+	{% endblock %}
