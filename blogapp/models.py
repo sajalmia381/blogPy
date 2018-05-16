@@ -37,7 +37,7 @@ class Article(models.Model):
     def topic_url(self):
         return reverse("blog:topic", kwargs={"name": self.category.name})
     def category_url(self):
-        return reverse("blog:category", kwargs=self.category.name)
+        return reverse("blog:categorys", kwargs=self.category.name)
 
 class Comment(models.Model):
     post = models.ForeignKey(Article, on_delete=models.CASCADE)

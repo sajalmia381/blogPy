@@ -9,17 +9,41 @@
 	{% endblock %}
 
 	{% block content %}
-    <section>
-        <div class="container">
-            <div class="row">
-                <ol>
-                    {% for c in post %}
-                    <li><a href="#">{{ c.name}}</a></li>
+
+            <section>
+            <div class="container">
+                <div class="row">
+                    {% if messages  %}
+                <div class="messages">
+                    {% for m in messages %}
+                    <div {% if m.tags %}class="{{ m.message.tags }}"{% endif %}>{{ m }}</div>
                     {% endfor %}
-                </ol>
+                </div>
+                {% endif %}
+                     {% if request.user.is_authenticated %}
+                        {% if request.user.is_staff or request.user.is_superuser %}
+                        <a href="{% url 'blog:create_category' %}" class="btn btn-success pull pull-right">Add New Category</a>
+                        {% endif %}
+                     {% endif %}
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <td>Title</td>
+                                <td>Action</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for c in post %}
+                                <tr>
+                                    <td><a href="{% url 'blog:topic' name=c.name %}">{{ c.name}}</a></td>
+                                    <td><a href="{% url 'blog:category_delete' category_id=c.id %}">Delete</a>|<a href="{% url 'blog:category_update' category_id=c.id %}">Edit</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 	{% endblock %}
 	 
 	{% block js %}
